@@ -52,7 +52,7 @@ def get_unused_scratch_fc(fc_name = "next_fc"):
         temp_fc = arcpy.env.scratchGDB + os.path.sep + fc_name + str(count)
         count = count + 1
 
-    logger.info("New fc created at " + temp_fc)
+    logger.debug("New fc created at " + temp_fc)
 
     return temp_fc
 
@@ -124,9 +124,36 @@ def get_oid_fieldname(fclass):
     
     return None
 
+def translate_ftype_for_addition(ftype):
+    """Arcpy is stupid and isn't consistent with their type names between 
+        describing a field and adding it. This will map them correctly.
+        
+    Args:
+        ftype (string): the type as returned from type attribute of a Field
+        object - other arguments will not result in a logical result
+
+    Returns:
+        a string containing the field type for use in new field creation
+    """
+    if (ftype == "Integer"):
+        return "LONG"
+    elif (ftype == "String"):
+        return "TEXT"
+    elif (ftype == "SmallInteger"):
+        return "SHORT"
+    elif (ftype == "OID"): # OID is a long but its it's own type
+        return "LONG"
+    else:
+        return ftype
+
 def copy_to_new_field(fc, fname, newfname):
-    """Adds a new field to the feature clsased named 'newfname' of same
+    """Adds a new field to the feature class named 'newfname' of same
         type as 'fname' and copies the contents.
+        
+    Args:
+        fc (string): The feature class that's being modified
+        fname (string): The field to be copied
+        newfname (string): The new field
     """
     
     old_field = arcpy.ListFields(fc, fname)[0]
@@ -142,18 +169,3 @@ def copy_to_new_field(fc, fname, newfname):
         row.setValue(newfname, fvalue)
         rows.updateRow(row)
     del row, rows
-
-def translate_ftype_for_addition(ftype):
-    """Arcpy is stupid and isn't consistent with their type names between 
-        describing a field and adding it. This will map them correctly.
-    """
-    if (ftype == "Integer"):
-        return "LONG"
-    elif (ftype == "String"):
-        return "TEXT"
-    elif (ftype == "SmallInteger"):
-        return "SHORT"
-    elif (ftype == "OID"):
-        return "LONG"
-    else:
-        return ftype
