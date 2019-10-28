@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-# import pandas as pd
+import pandas as pd
 
 from access_arcpy import append_arc32_paths
 append_arc32_paths()
@@ -9,25 +9,25 @@ append_arc32_paths()
 import arcpy
 import logging
 
-#def arcgis_table_to_df(in_fc, input_fields=None, query=""):
-#    """Function will convert an arcgis table into a pandas dataframe with an
-#    object ID index, and the selected input fields using an
-#    arcpy.da.SearchCursor."""
-#    
-#    OIDFieldName = arcpy.Describe(in_fc).OIDFieldName
-#    
-#    if input_fields:
-#        final_fields = [OIDFieldName] + input_fields
-#    else:
-#        final_fields = [field.name for field in arcpy.ListFields(in_fc)]
-#        
-#    data = [row for row in arcpy.da.SearchCursor(
-#            in_fc, final_fields, where_clause=query)]
-#    
-#    fc_dataframe = pd.DataFrame(data, columns=final_fields)
-#    fc_dataframe = fc_dataframe.set_index(OIDFieldName, drop=True)
-#    
-#    return fc_dataframe
+def get_arcgis_table_as_df(in_fc, input_fields=None, query=""):
+    """Function will convert an arcgis table into a pandas dataframe with an
+    object ID index, and the selected input fields using an
+    arcpy.da.SearchCursor."""
+    
+    OIDFieldName = arcpy.Describe(in_fc).OIDFieldName
+    
+    if input_fields:
+        final_fields = [OIDFieldName] + input_fields
+    else:
+        final_fields = [field.name for field in arcpy.ListFields(in_fc)]
+        
+    data = [row for row in arcpy.da.SearchCursor(
+            in_fc, final_fields, where_clause=query)]
+    
+    fc_dataframe = pd.DataFrame(data, columns=final_fields)
+    fc_dataframe = fc_dataframe.set_index(OIDFieldName, drop=True)
+        
+    return fc_dataframe
 
 def get_unused_scratch_fc(fc_name = "next_fc"):
     """Given a name, will return the next empty feature class within the scratch
@@ -55,6 +55,13 @@ def get_unused_scratch_fc(fc_name = "next_fc"):
     logger.debug("New fc created at " + temp_fc)
 
     return temp_fc
+
+def make_and_get_copy_in_scratch_gdb(fc, fc_name = "next_fc"):
+    new_fc = get_unused_scratch_fc(fc_name)
+    arcpy.CopyFeatures_management(fc, new_fc)
+    
+    return new_fc
+
 
 def get_sr_by_fc(fc):
     """This retrieves a spatial reference object by its factory code. Per a
