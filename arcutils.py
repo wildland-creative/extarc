@@ -56,10 +56,14 @@ def get_unused_scratch_fc(fc_name = "next_fc"):
 
     return temp_fc
 
-def make_and_get_copy_in_scratch_gdb(fc, fc_name = "next_fc"):
+def make_and_get_copy_in_scratch_gdb(fc, fc_name = "next_fc", projection = None):
     new_fc = get_unused_scratch_fc(fc_name)
-    arcpy.CopyFeatures_management(fc, new_fc)
     
+    if (projection != None):
+        arcpy.Project_management(fc, new_fc, projection)
+    else:
+        arcpy.CopyFeatures_management(fc, new_fc)
+        
     return new_fc
 
 
