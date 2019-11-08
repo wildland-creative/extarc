@@ -1,6 +1,6 @@
 # arcutils - for arcpy 2.7
 
-This repository contains python functions for my most often repeated tasks, e.g. getting new scratch feature classes in a scratch gdb, or getting certain projections. It uses the arcpy module which ships with ArcMap Desktop 10.x and as such may not be compatible with ArcGIS Pro. [arcutils3](https://github.com/joshpsawyer/arcutilspro) is an ArcGIS Pro compatible version.
+This repository contains python functions for my most often repeated tasks, e.g. getting new scratch feature classes in a scratch gdb, or getting certain projections. It uses the arcpy module which ships with ArcMap Desktop 10.x and as such may not be compatible with ArcGIS Pro. [arcutilspro](https://github.com/joshpsawyer/arcutilspro) is an ArcGIS Pro compatible version.
 
 To install, clone the submodule into your src directory for your project. It's structured so that it will be importable as a subdirectory, e.g.
 
