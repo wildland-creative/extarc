@@ -39,19 +39,35 @@ def get_unused_scratch_fc(fc_name = "next_fc"):
             non-existent fcnameX feature class.
     """
 
+    return get_unused_fc_in_gdb(arcpy.env.scratchGDB, fc_name)
+
+def get_unused_fc_in_gdb(gdb, fc_name = "next_fc"):
+    """Given a name, will return the next empty feature class within the gdb,
+    appending an incrementing counter to the end until a non-existant
+    feature class location is found.
+
+    Args:
+        fc_name (str): the desired name of the feature class
+
+    Returns:
+        scratch_path (str): the full path in the geodatabase arg to the next
+            non-existent fcnameX feature class.
+    """
+
     logger = logging.getLogger(__name__)
     logging.basicConfig(level=logging.INFO)
     
     count = 0
-    temp_fc = arcpy.env.scratchGDB + os.path.sep + fc_name
+    temp_fc = gdb + os.path.sep + fc_name
 
     while (arcpy.Exists(temp_fc)):
-        temp_fc = arcpy.env.scratchGDB + os.path.sep + fc_name + str(count)
+        temp_fc = gdb + os.path.sep + fc_name + str(count)
         count = count + 1
 
     logger.debug("New fc created at " + temp_fc)
 
     return temp_fc
+    
 
 def make_and_get_copy_in_scratch_gdb(fc, fc_name = "next_fc", projection = None):
     new_fc = get_unused_scratch_fc(fc_name)
