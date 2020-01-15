@@ -3,9 +3,6 @@
 import os
 import pandas as pd
 
-from access_arcpy import append_arc32_paths
-append_arc32_paths()
-
 import arcpy
 import logging
 
@@ -115,6 +112,15 @@ def get_sr_nad83_utm_z19():
         an arcpy SpatialReference object for NAD83 UTM Zone 19.
     """
     sr = get_sr_by_fc(26919)
+    return sr
+
+def get_sr_wgs84():
+    """Returns the spatial reference for WGS84 (unprojected).
+
+    Returns:
+        an arcpy SpatialReference object for WGS84.
+    """
+    sr = get_sr_by_fc(4326)
     return sr
 
 def get_oid_fieldname(fclass):
