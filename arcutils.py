@@ -40,7 +40,6 @@ def get_unused_scratch_fc(fc_name = "next_fc"):
     """
 
     logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.INFO)
     
     count = 0
     temp_fc = arcpy.env.scratchGDB + os.path.sep + fc_name
@@ -49,7 +48,7 @@ def get_unused_scratch_fc(fc_name = "next_fc"):
         temp_fc = arcpy.env.scratchGDB + os.path.sep + fc_name + str(count)
         count = count + 1
 
-    logger.debug("New fc created at " + temp_fc)
+    logger.debug("Next empty fc is located at " + temp_fc)
 
     return temp_fc
 
