@@ -78,6 +78,37 @@ def make_and_get_copy_in_scratch_gdb(fc, fc_name = "next_fc", projection = None)
         
     return new_fc
 
+def get_unused_fc_in_memory(fc_name = "next_fc"):
+    """Given a name, will return the next empty in memory feature class,
+    appending an incrementing counter to the end until a non-existant
+    feature class location is found.
+
+    Args:
+        fc_name (str): the desired name of the feature class
+
+    Returns:
+        scratch_path (str): the full path in the geodatabase arg to the next
+            non-existent fcnameX feature class.
+    """
+    logger = logging.getLogger(__name__)
+
+    count = 0
+    temp_fc = "in_memory" + os.path.sep + fc_name
+
+    while (arcpy.Exists(temp_fc)):
+        temp_fc = "in_memory" + os.path.sep + fc_name + str(count)
+        count = count + 1
+
+    logger.debug("Next empty in memory fc is located at " + temp_fc)
+
+    return temp_fc
+
+def wipe_in_memory():
+    return None
+
+def wipe_scratch_gdb():
+    return None
+
 
 def get_sr_by_fc(fc):
     """This retrieves a spatial reference object by its factory code. Per a
@@ -201,3 +232,19 @@ def copy_to_new_field(fc, fname, newfname):
         row.setValue(newfname, fvalue)
         rows.updateRow(row)
     del row, rows
+
+def get_unique_field_values(fc, field_name) :
+    """
+    Iterates over a feature class and gets all the unique values contained in
+    field_name.
+    
+    Args:
+        fc (string): The feature class of consideration
+        field_name (string): the field to get unique values from
+        
+    Returns:
+        the unique values of field_name
+
+    """
+    with arcpy.da.SearchCursor(fc, [field_name]) as cursor:
+        return sorted({row[0] for row in cursor})
