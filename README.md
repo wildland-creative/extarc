@@ -1,6 +1,6 @@
-# extarc - Utility functions for **ext**ending `**arc**py`
+# extarc - Utility functions for `arcpy`
 
-This repository contains python functions for commonly repeated tasks, e.g. getting new scratch feature classes in a scratch gdb, or getting certain projections. It utilizes the `arcpy` module which ships with ArcMap Desktop / ArcGIS Pro and so it's assumed that your python environment has access to these modules. That is, if you can't `import arcpy` already, why are you trying to use a helper library?
+This repository contains python functions for commonly repeated tasks, e.g. getting new scratch feature classes in a scratch gdb, or getting certain projections. It **ext**ends **arc**py. It utilizes the `arcpy` module which ships with ArcMap Desktop / ArcGIS Pro and so it's assumed that your python environment has access to these modules. That is, if you can't `import arcpy` already, why are you trying to use a helper library?
 
 To install, clone or copy the submodule into the directory where your python code lives for your project. It's structured so that it will be importable as a subdirectory, e.g.
 
