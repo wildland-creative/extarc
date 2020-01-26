@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import object
-import sr
-import logger
-import table
+from . import object
+from . import sr
+from . import logger
+from . import table
 
 __all__ = [
     'object',
