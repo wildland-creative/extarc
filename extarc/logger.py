@@ -6,7 +6,29 @@ import os
 import yaml
 import logging
 import logging.config
+import logging.handlers
+
 import arcpy
+
+class ArcPyLogHandler(logging.StreamHandler):
+    """
+    Custom logging class that bounces messages to the arcpy tool window as well
+    as reflecting back to the file.
+    """
+
+    def __init__(self):
+        logging.Handler.__init__(self)
+
+    def emit(self, record):
+        """
+        Write the log message
+        """
+        if record.levelno >= logging.ERROR:
+            arcpy.AddError(record.msg)
+        elif record.levelno >= logging.WARNING:
+            arcpy.AddWarning(record.msg)
+        elif record.levelno >= logging.INFO:
+            arcpy.AddMessage(record.msg)
 
 def setup_logging(
     default_path='logging.yaml',
@@ -35,29 +57,3 @@ def setup_logging(
         logging.config.dictConfig(config)
     else:
         logging.basicConfig(level=default_level)
-        
-def send(msg, severity=0):
-    logger = logging.getLogger(__name__)
-    
-    # outputs message using python logging module, choosing type
-    # based on severity
-    if severity == -1:
-        logger.debug(msg)
-    elif severity == 0:
-        logger.info(msg)
-    elif severity == 1:
-        logger.warning(msg)
-    elif severity == 2:
-        logger.error(msg)
-    
-    try:
-        for string in msg.split('\n'):
-            # debug messages are never output to arcpy by default
-            if severity == 0:
-                arcpy.AddMessage(string)
-            elif severity == 1:
-                arcpy.AddWarning(string)
-            elif severity == 2:
-                arcpy.AddError(string)
-    except:
-        pass

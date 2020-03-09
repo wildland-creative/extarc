@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from . import object
+from . import obj
 from . import sr
 from . import logger
 from . import table
 
+
 __all__ = [
-    'object',
+    'obj',
     'sr',
     'logger',
     'table',
