@@ -7,32 +7,23 @@ This repository contains python functions for commonly repeated tasks, e.g. gett
 
 ## Installation
 
-While you can always just clone this repository into your project, or add it as a submodule via:
+### pip
+
+You can install the latest stable version with pip via:
 
 ```bash
-> git submodule add https://github.com/joshpsawyer/extarc.git
+pip install extarc
 ```
 
-...it's a much better practice to install it as a module in your python environment - less maintenance, no unnecessary packages in your code. While structured for pypi, it's currently _not_ in the index. You need to install a development build. Anaonda is recommended for environment management, but because Anaconda doesn't _directly_ support this - you need to use pip.
-
-Assuming you have anaconda installed and a target environment, open your command prompt / terminal. If you're installing it to the conda environment `cool-env`, switch to that environment now:
+And if you want to be on the bleeding edge of development, get the latest version from github:
 
 ```bash
-(base)> conda env activate cool-env
-(cool-env)> conda env activate cool-env
+pip install --editable=git+https://github.com/dorkwood/extarc.git#egg=pyhere
 ```
 
-From the prompt, type:
+### conda
 
-```bash
-(cool-env)> pip install --editable=git+https://github.com/joshpsawyer/extarc.git#egg=extarc
-```
-
-The latest master commit will be installed under the package named `extarc-joshpsawyer`. To uninstall, type:
-
-```bash
-(cool-env)> pip uninstall extarc-joshpsawyer
-```
+Not in conda, yet - just install it from pip in your environment.
 
 ## Usage
 
